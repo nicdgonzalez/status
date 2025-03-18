@@ -1,38 +1,65 @@
 # Status
 
-**Status** displays information about all repositories in a given directory.
+**Status** provides an overview of all Git repositories within a specified
+directory, allowing you to easily identify which projects have local changes
+that require pushing.
 
 <div align="center">
     <img
         src="./assets/usage-example.png"
-        alt="Status displaying 'git status' for multiple directories at once"
+        alt="Status displaying changes for multiple directories at once"
     />
 </div>
 
 ## Installation
 
-**Requires Python 3.12 or higher.**
+**Requires Python 3.10 or higher.**
+
+This project is not on PyPI, but you can still install it using pip:
 
 ```bash
-git clone https://github.com/nicdgonzalez/status
+pip install git+https://github.com/nicdgonzalez/status.git
 ```
 
-Once downloaded, add the script to PATH (optional):
+Once installed, run `status --verbose` in a directory with git repositories:
 
 ```bash
-# Make sure `status.py` is executable:
-chmod u+x ./status.py
-
-mkdir --parents $HOME/.local/bin \
-    && ln --symbolic "$PWD/status.py" "$HOME/.local/bin/status"
+status --verbose [path]
 ```
 
-Once installed, simply run `status --verbose` in the same directory where you
-keep your projects:
+Example output (typically has color):
 
-```bash
-status --verbose [PATH]
-
-# If the script is not on PATH, use "./status.py" instead.
-# ./status.py --verbose [dirpath]
+```txt
+Found 8 repositories:
+  dotfiles DIRTY
+    Unstaged changes:
+      E nvim/lazy-lock.json
+      E nvim/lua/plugins/colorscheme.lua
+      E nvim/lua/plugins/lsp.lua
+      E nvim/plugin/options.vim
+    Untracked files:
+      U nvim/lua/plugins/obsidian.lua
+  advent-of-code OK
+  orbit OK
+  axiom DIRTY
+    Changes to be committed:
+      N Cargo.lock
+      N Cargo.toml
+    Unstaged changes:
+      E src/fs.rs
+    Untracked files:
+      U .gitignore
+      U celestia/
+  scaffold OK
+  monkey OK
+  status DIRTY
+    Unstaged changes:
+      E README.md
+      D status.py
+    Untracked files:
+      U .gitignore
+      U pyproject.toml
+      U status/
+      U tox.ini
+  colorize OK
 ```

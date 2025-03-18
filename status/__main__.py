@@ -65,17 +65,7 @@ def main() -> None:
 
                         action, file = [s.strip() for s in line.split(":")]
                         file = Colorize(file).color256(250)
-
-                        match action:
-                            case "new file":
-                                letter = Colorize("N").bold().color256(28)
-                            case "modified":
-                                letter = Colorize("E").bold().color256(3)
-                            case "deleted":
-                                letter = Colorize("D").bold().color256(88)
-                            case _:
-                                raise AssertionError(f"unreachable: {line}")
-
+                        letter = get_letter(action=action)
                         print(f"      {letter} {file}")
                 case "Changes not staged for commit:":
                     print("    " + Colorize("Unstaged changes:").color256(245))
@@ -86,18 +76,8 @@ def main() -> None:
                             continue
 
                         action, file = [s.strip() for s in line.split(":")]
+                        letter = get_letter(action=action)
                         file = Colorize(file).color256(250)
-
-                        match action:
-                            case "new file":
-                                letter = Colorize("N").bold().color256(28)
-                            case "modified":
-                                letter = Colorize("E").bold().color256(3)
-                            case "deleted":
-                                letter = Colorize("D").bold().color256(88)
-                            case _:
-                                raise AssertionError(f"unreachable: {line}")
-
                         print(f"      {letter} {file}")
                 case "Untracked files:":
                     print("    " + Colorize("Untracked files:").color256(245))
@@ -107,11 +87,23 @@ def main() -> None:
                         if line.startswith("("):
                             continue
 
-                        file = line.strip()
-                        file = Colorize(file).color256(250)
                         letter = Colorize("U").color256(238).bold()
-
+                        file = Colorize(line.strip()).color256(250)
                         print(f"      {letter} {file}")
+
+
+def get_letter(action: str) -> Colorize:
+    match action:
+        case "new file":
+            letter = Colorize("N").bold().color256(28)
+        case "modified":
+            letter = Colorize("E").bold().color256(3)
+        case "deleted":
+            letter = Colorize("D").bold().color256(88)
+        case _:
+            raise AssertionError("unreachable")
+
+    return letter
 
 
 if __name__ == "__main__":

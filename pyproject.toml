@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "status"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "colorize@git+https://github.com/nicdgonzalez/colorize",
+]
+
+[project.scripts]
+status = "status.__main__:main"
+
+[tool.setuptools.packages]
+find = {}
