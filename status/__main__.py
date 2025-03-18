@@ -27,9 +27,12 @@ def main() -> None:
     print(f"Found {len(directories)} repositories:")
 
     for repository in directories:
-        output = subprocess.check_output(
-            ["git", "status"], cwd=repository
-        ).decode(encoding="utf-8")
+        # fmt: off
+        output = (
+            subprocess.check_output(["git", "status"], cwd=repository)
+            .decode(encoding="utf-8")
+        )
+        # fmt: on
 
         if output.endswith("nothing to commit, working tree clean\n"):
             status = Colorize("OK").bold().color256(28)
@@ -40,7 +43,6 @@ def main() -> None:
             print(f"  {repository.name} {status}")
 
         if not args.verbose:
-            # Optionally print additional information about each repository
             continue
 
         lines = output.splitlines()
@@ -90,6 +92,8 @@ def main() -> None:
                         letter = Colorize("U").color256(238).bold()
                         file = Colorize(line.strip()).color256(250)
                         print(f"      {letter} {file}")
+                case _:
+                    ()  # Skip
 
 
 def get_letter(action: str) -> Colorize:
