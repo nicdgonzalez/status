@@ -13,5 +13,8 @@ dependencies = [
 [project.scripts]
 status = "status.__main__:main"
 
-[tool.setuptools.packages]
-find = {}
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 79
